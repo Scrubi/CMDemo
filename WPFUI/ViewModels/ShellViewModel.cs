@@ -6,7 +6,7 @@ using WPFUI.Models;
 
 namespace WPFUI.ViewModels
 {
-    public class ShellViewModel : Screen
+    public class ShellViewModel : Conductor<object>
     {
 		private string _firstName = "Tim";
 		private string _lastName;
@@ -79,13 +79,26 @@ namespace WPFUI.ViewModels
 			}
 		}
 
-		public void ClearText() 
+		public bool CanClearText(string firstName, string lastName) 
+		{
+			return !String.IsNullOrWhiteSpace(firstName) || !String.IsNullOrWhiteSpace(lastName);
+		}
+		public void ClearText(string firstName, string lastName) 
 		{
 			FirstName = "";
 			LastName = "";
 		}
 
+		public void LoadPageOne() 
+		{
+			ActivateItemAsync(new FirstChildViewModel(), System.Threading.CancellationToken.None);
+			
+		}
 
+		public void LoadPageTwo()
+		{
+			ActivateItemAsync(new SecondChildViewModel(), System.Threading.CancellationToken.None);
 
+		}
 	}
 }
